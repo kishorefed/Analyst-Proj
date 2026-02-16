@@ -4,9 +4,6 @@ import Sidebar from "../components/Sidebar";
 const ConversationPage = () => {
   return (
     <>
-      {/* Animated Background */}
-      {/* Background linear & particles are still driven by global CSS animations,
-          but the main layout/styles are now Tailwind utility classes */}
       <div className="bg-animation">
         <div
           className="particle"
@@ -32,18 +29,14 @@ const ConversationPage = () => {
 
       <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-6">
         <div className="flex h-[900px] w-full max-w-[1600px] overflow-hidden rounded-3xl bg-white/95 shadow-[0_50px_100px_rgba(0,0,0,0.3)] ring-1 ring-white/50 backdrop-blur-2xl">
-        {/* Reusable Sidebar */}
         <Sidebar />
 
-        {/* Main Content */}
         <div className="flex flex-1 flex-col bg-[#fafbfc]">
-            {/* Advanced Header */}
             <div className="flex items-center justify-between border-b border-teal-900/10 bg-linear-to-br from-white to-teal-50 px-10 py-6 shadow-sm">
                 <div className="space-y-1">
                     <h1 className="bg-linear-to-r from-teal-700 to-teal-500 bg-clip-text text-[32px] font-extrabold text-transparent">
                         AI Conversation Studio
                     </h1>
-                    {/* <p>Intelligent requirements gathering powered by Claude Sonnet 4</p> */}
                 </div>
                 <div className="flex items-center gap-3">
                     <button className="flex items-center gap-2 rounded-xl border-2 border-teal-100 bg-white px-5 py-2.5 text-[13px] font-semibold text-teal-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-teal-200 hover:bg-teal-50 hover:shadow-md">
@@ -60,7 +53,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* Advanced Chat Area */}
             <div className="flex flex-1 flex-col gap-5 overflow-y-auto bg-[radial-linear(circle_at_20%_50%,rgba(94,234,212,0.03)_0,transparent_50%),radial-linear(circle_at_80%_80%,rgba(167,139,250,0.03)_0,transparent_50%)] px-10 py-6">
                 <div className="flex items-start gap-4">
                     <div className="flex h-[42px] w-[42px] flex-shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-teal-700 to-teal-500 text-[18px] shadow-md">
@@ -166,7 +158,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* Smart Suggestions */}
             <div className="border-y border-teal-100 bg-linear-to-r from-teal-50 to-white px-10 py-4">
                 <div className="mb-3 flex items-center justify-between">
                     <div className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-500">
@@ -193,7 +184,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* Advanced Input Area */}
             <div className="flex items-center gap-3 border-t border-gray-200 bg-white px-10 py-5 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
                 <button className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-red-500 bg-linear-to-r from-red-500 to-red-600 text-[20px] text-white shadow-md transition-all animate-[pulse_1.5s_infinite]">
                     🎤
@@ -216,7 +206,6 @@ const ConversationPage = () => {
             </div>
         </div>
 
-        {/* Premium Right Sidebar */}
         <div className="flex h-full w-[420px] flex-col overflow-y-auto border-l border-gray-200 bg-linear-to-br from-[#fafbfc] to-sky-50 px-8 py-6 shadow-[ -2px_0_10px_rgba(0,0,0,0.03)]">
             <div className="mb-6 flex items-center justify-between">
                 <div className="bg-linear-to-r from-teal-700 to-teal-500 bg-clip-text text-[20px] font-extrabold text-transparent">
@@ -228,7 +217,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* Premium Completeness Card */}
             <div className="mb-5 rounded-2xl border border-teal-900/10 bg-linear-to-br from-white to-teal-50 p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
                 <div className="mb-4 flex items-center justify-between">
                     <div className="text-[13px] font-bold uppercase tracking-wide text-slate-500">
@@ -269,7 +257,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* AI Insights */}
             <div className="mb-4 rounded-xl border border-blue-300 bg-linear-to-br from-indigo-50 to-blue-100 p-4 shadow-sm">
                 <div className="mb-3 flex items-center gap-2">
                     <span className="text-[20px]">💡</span>
@@ -282,7 +269,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* Action Required */}
             <div className="mb-3 flex items-center gap-2 text-[13px] font-extrabold uppercase tracking-wide text-gray-800">
                 ⚠️ Action Required
             </div>
@@ -321,7 +307,6 @@ const ConversationPage = () => {
                 </div>
             </div>
 
-            {/* Recently Captured */}
             <div className="mt-5 mb-3 flex items-center gap-2 text-[13px] font-extrabold uppercase tracking-wide text-gray-800">
                 ✨ Recently Captured
             </div>

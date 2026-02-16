@@ -29,12 +29,9 @@ const RequirmentPage = () => {
 
     <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-6">
       <div className="flex h-[900px] w-full max-w-[1600px] overflow-hidden rounded-3xl bg-white/95 shadow-[0_50px_100px_rgba(0,0,0,0.3)] ring-1 ring-white/50 backdrop-blur-2xl">
-        {/* Reusable Sidebar */}
         <Sidebar />
 
-        {/* Main Requirements Content */}
         <div className="flex flex-1 flex-col bg-[#fafbfc]">
-            {/* Header */}
             <div className="flex items-center justify-between border-b border-teal-900/10 bg-linear-to-br from-white to-teal-50 px-10 py-6 shadow-sm">
                 <div className="space-y-1">
                     <h1 className="bg-linear-to-r from-teal-700 to-teal-500 bg-clip-text text-[32px] font-extrabold text-transparent">
@@ -59,9 +56,7 @@ const RequirmentPage = () => {
                 </div>
             </div>
 
-            {/* Requirements body */}
             <div className="flex-1 overflow-y-auto bg-[radial-linear(circle_at_20%_50%,rgba(94,234,212,0.03)_0,transparent_50%),radial-linear(circle_at_80%_80%,rgba(167,139,250,0.03)_0,transparent_50%)] px-10 py-6">
-                    {/* Filters bar */}
                     <div className="mb-5 flex items-center gap-4 rounded-2xl border border-teal-900/10 bg-white px-6 py-5 shadow-md">
                         <div className="relative flex-1">
                             <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] text-slate-400">
@@ -98,7 +93,6 @@ const RequirmentPage = () => {
                         </button>
                     </div>
 
-                    {/* Stats cards */}
                     <div className="mb-6 grid grid-cols-4 gap-5">
                         <div className="rounded-2xl border border-teal-900/10 bg-linear-to-br from-white to-teal-50 p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
                             <div className="mb-3 flex items-center justify-between">
@@ -169,7 +163,6 @@ const RequirmentPage = () => {
                         </div>
                     </div>
 
-                    {/* Requirements table */}
                     <div className="overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md">
                         <div className="flex items-center justify-between border-b-2 border-slate-200 bg-linear-to-r from-slate-50 to-teal-50 px-7 py-5">
                             <div className="bg-linear-to-r from-teal-700 to-teal-500 bg-clip-text text-[18px] font-extrabold text-transparent">
@@ -564,7 +557,6 @@ const RequirmentPage = () => {
                     </div>
             </div>
 
-            {/* Bottom actions */}
             <div className="flex items-center justify-between border-t border-slate-200 bg-white px-10 py-5 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
                 <div className="flex items-center gap-2">
                     <button className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-slate-200 bg-white text-[13px] font-semibold text-slate-500 transition-all hover:border-teal-500 hover:bg-teal-50 hover:text-teal-700">

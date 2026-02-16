@@ -29,10 +29,8 @@ const DocumentPage = () => {
 
       <div className="relative z-10 flex min-h-screen w-full items-center justify-center p-6">
         <div className="flex h-[900px] w-full max-w-[1600px] overflow-hidden rounded-3xl bg-white/95 shadow-[0_50px_100px_rgba(0,0,0,0.3)] ring-1 ring-white/50 backdrop-blur-2xl">
-        {/* Reusable Sidebar */}
         <Sidebar />
 
-        {/* Main content layout aligned with other pages */}
         <div className="flex flex-1 flex-col bg-[#fafbfc]">
           <div className="flex items-center justify-between border-b border-teal-900/10 bg-linear-to-br from-white to-teal-50 px-10 py-6 shadow-sm">
             <div className="space-y-1">
@@ -58,9 +56,7 @@ const DocumentPage = () => {
             </div>
           </div>
 
-          {/* Tailwind-styled documents area */}
           <div className="flex-1 overflow-y-auto px-10 py-6 bg-linear-to-br from-emerald-50/40 via-white to-violet-50/40">
-            {/* Stats bar */}
             <div className="grid grid-cols-4 gap-5 mb-6">
               <div className="flex items-center gap-4 rounded-2xl border border-teal-900/10 bg-linear-to-br from-white to-emerald-50/70 p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                 <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-blue-100 to-blue-200 text-2xl">
@@ -111,7 +107,6 @@ const DocumentPage = () => {
               </div>
             </div>
 
-            {/* Category tabs */}
             <div className="mb-6">
               <div className="mb-5 flex gap-5 border-b-2 border-slate-200">
                 <button className="border-b-2 border-teal-500 pb-3 text-sm font-semibold text-teal-700 transition">
@@ -131,9 +126,7 @@ const DocumentPage = () => {
                 </button>
               </div>
 
-              {/* Documents grid */}
               <div className="mb-6 grid grid-cols-3 gap-6">
-                {/* Card 1 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-emerald-50 to-sky-100 text-6xl">
                     📄
@@ -169,7 +162,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 2 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-rose-100 to-rose-200 text-6xl">
                     📕
@@ -205,7 +197,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 3 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-emerald-100 to-emerald-200 text-6xl">
                     📗
@@ -241,7 +232,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 4 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-emerald-100 to-emerald-200 text-6xl">
                     📊
@@ -277,7 +267,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 5 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-emerald-100 to-emerald-200 text-6xl">
                     🔗
@@ -313,7 +302,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 6 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-sky-100 to-sky-200 text-6xl">
                     🏗️
@@ -349,7 +337,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 7 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-sky-100 to-sky-200 text-6xl">
                     🧪
@@ -385,7 +372,6 @@ const DocumentPage = () => {
                   </div>
                 </div>
 
-                {/* Card 8 */}
                 <div className="cursor-pointer overflow-hidden rounded-2xl border border-teal-900/10 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
                   <div className="relative flex h-48 items-center justify-center bg-linear-to-br from-rose-100 to-rose-200 text-6xl">
                     ⚠️
@@ -423,7 +409,6 @@ const DocumentPage = () => {
               </div>
             </div>
 
-            {/* Quick actions + activity */}
             <div className="flex flex-col gap-6">
               <div className="rounded-2xl border border-teal-900/10 bg-white p-7 shadow-md">
                 <div className="mb-5 bg-linear-to-br from-teal-700 to-teal-500 bg-clip-text text-lg font-extrabold text-transparent">

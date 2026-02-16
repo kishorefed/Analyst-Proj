@@ -168,7 +168,6 @@ const SignIn: React.FC = () => {
 
   return (
     <div className="relative flex h-screen w-screen overflow-hidden bg-[#081212] font-['DM_Sans',sans-serif]">
-      {/* Animated background */}
       <div
         className="signin-bg fixed inset-0 z-0 bg-linear-to-br from-[#040c0c] via-[#081a1a] to-[#0c3535]"
         aria-hidden
