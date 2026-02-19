@@ -4,10 +4,12 @@ interface StepSignInProps {
   email: string;
   password: string;
   showPassword: boolean;
+  rememberMe: boolean;
   errors: { email?: boolean; password?: boolean };
   onEmailChange: (v: string) => void;
   onPasswordChange: (v: string) => void;
   onTogglePassword: () => void;
+  onRememberMeChange: (v: boolean) => void;
   onContinue: () => void;
 }
 
@@ -19,10 +21,12 @@ export const StepSignIn: React.FC<StepSignInProps> = ({
   email,
   password,
   showPassword,
+  rememberMe,
   errors,
   onEmailChange,
   onPasswordChange,
   onTogglePassword,
+  onRememberMeChange,
   onContinue,
 }) => (
   <div className="flex flex-1 flex-col">
@@ -113,7 +117,16 @@ export const StepSignIn: React.FC<StepSignInProps> = ({
         )}
       </div>
 
-      <div className="-mt-1 flex justify-end mb-2">
+      <div className="-mt-1 flex items-center justify-between mb-2">
+        <label className="flex cursor-pointer items-center gap-2 text-[12.5px] text-[#a8c0c0]">
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => onRememberMeChange(e.target.checked)}
+            className="h-4 w-4 rounded border-2 border-[#dceaea] text-teal-600 focus:ring-teal-400 accent-teal-700"
+          />
+          Remember me
+        </label>
         <a
           href="#"
           className="text-[12.5px] font-bold text-teal-700 no-underline hover:underline"

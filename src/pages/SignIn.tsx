@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store';
 import {
   SignInLeftPanel,
   SignInStepper,
@@ -55,6 +56,19 @@ const SignIn: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState(LAUNCH_MESSAGES[0]);
+  const hasHydratedEmail = useRef(false);
+
+  const rememberMe = useAuthStore((s) => s.rememberMe);
+  const rememberedEmail = useAuthStore((s) => s.rememberedEmail);
+  const setRememberMe = useAuthStore((s) => s.setRememberMe);
+  const saveRememberedEmail = useAuthStore((s) => s.saveRememberedEmail);
+  const clearRememberedEmail = useAuthStore((s) => s.clearRememberedEmail);
+
+  useEffect(() => {
+    if (hasHydratedEmail.current || !rememberedEmail) return;
+    hasHydratedEmail.current = true;
+    setForm((prev) => ({ ...prev, email: rememberedEmail }));
+  }, [rememberedEmail]);
 
   const updateForm = useCallback(<K extends keyof SignInFormState>(
     key: K,
@@ -94,10 +108,14 @@ const SignIn: React.FC = () => {
   }, [form.leadBaName]);
 
   const goNext = useCallback(() => {
-    if (step === 1 && !validateStep1()) return;
+    if (step === 1) {
+      if (!validateStep1()) return;
+      if (rememberMe) saveRememberedEmail(form.email);
+      else clearRememberedEmail();
+    }
     if (step === 2 && !validateStep2()) return;
     if (step < 3) setStep((s) => s + 1);
-  }, [step, validateStep1, validateStep2]);
+  }, [step, rememberMe, form.email, validateStep1, validateStep2, saveRememberedEmail, clearRememberedEmail]);
 
   const goBack = useCallback(() => {
     if (step > 1) setStep((s) => s - 1);
@@ -202,10 +220,12 @@ const SignIn: React.FC = () => {
                 email={form.email}
                 password={form.password}
                 showPassword={showPassword}
+                rememberMe={rememberMe}
                 errors={{ email: errors.email, password: errors.password }}
                 onEmailChange={(v) => updateForm('email', v)}
                 onPasswordChange={(v) => updateForm('password', v)}
                 onTogglePassword={() => setShowPassword((p) => !p)}
+                onRememberMeChange={setRememberMe}
                 onContinue={goNext}
               />
             )}
