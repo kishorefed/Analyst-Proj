@@ -1,6 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const logout = useAuthStore((s) => s.logout);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
+  };
+
   const mainLinkBase =
     "relative mb-1 flex cursor-pointer items-center gap-3 rounded-xl px-[18px] py-[14px] text-[15px] transition-all";
   const mainLinkInactive =
@@ -20,7 +29,6 @@ const Sidebar = () => {
         AnalystAI
       </div>
 
-      {/* Main */}
       <div className="mb-6">
         <div className="mb-2.5 pl-4 text-[11px] font-bold uppercase tracking-[0.15em] text-white/50">
           Main
@@ -59,7 +67,6 @@ const Sidebar = () => {
         </NavLink>
       </div>
 
-      {/* Collaboration */}
       <div className="mb-6">
         <div className="mb-2.5 pl-4 text-[11px] font-bold uppercase tracking-[0.15em] text-white/50">
           Collaboration
@@ -80,7 +87,6 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Tools */}
       <div className="mb-6">
         <div className="mb-2.5 pl-4 text-[11px] font-bold uppercase tracking-[0.15em] text-white/50">
           Tools
@@ -95,7 +101,6 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Project progress */}
       <div className="mt-auto rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
         <div className="mb-2 text-[14px] font-semibold text-white">
           Healthcare App
@@ -107,6 +112,17 @@ const Sidebar = () => {
         <div className="h-2.5 w-full overflow-hidden rounded-full bg-black/20 shadow-inner">
           <div className="h-full w-[82%] rounded-full bg-linear-to-r from-teal-600 to-teal-300"></div>
         </div>
+      </div>
+
+      <div className="pt-4 border-t border-white/10">
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="relative mb-1 flex w-full cursor-pointer items-center gap-3 rounded-xl px-4.5 py-3.5 text-[15px] font-medium text-white/80 transition-all hover:translate-x-1 hover:bg-red-500/20 hover:text-red-200"
+        >
+          <span className="flex h-6 w-6 items-center justify-center text-[20px]">🚪</span>
+          Logout
+        </button>
       </div>
     </div>
   );

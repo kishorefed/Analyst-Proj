@@ -61,6 +61,7 @@ const SignIn: React.FC = () => {
   const rememberMe = useAuthStore((s) => s.rememberMe);
   const rememberedEmail = useAuthStore((s) => s.rememberedEmail);
   const setRememberMe = useAuthStore((s) => s.setRememberMe);
+  const setAuthenticated = useAuthStore((s) => s.setAuthenticated);
   const saveRememberedEmail = useAuthStore((s) => s.saveRememberedEmail);
   const clearRememberedEmail = useAuthStore((s) => s.clearRememberedEmail);
 
@@ -164,11 +165,12 @@ const SignIn: React.FC = () => {
       } else {
         clearInterval(interval);
         setShowSuccess(false);
+        setAuthenticated(true);
         navigate('/conversation', { replace: true });
       }
     }, 380);
     return () => clearInterval(interval);
-  }, [showSuccess, navigate]);
+  }, [showSuccess, navigate, setAuthenticated]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
