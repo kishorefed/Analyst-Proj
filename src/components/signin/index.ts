@@ -1,4 +1,5 @@
 export { SignInLeftPanel } from './SignInLeftPanel';
+export { SignUpLeftPanel } from './SignUpLeftPanel';
 export { SignInStepper } from './SignInStepper';
 export { StepSignIn } from './StepSignIn';
 export { StepProjectSetup } from './StepProjectSetup';

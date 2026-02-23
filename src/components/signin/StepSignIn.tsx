@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface StepSignInProps {
   email: string;
@@ -11,6 +12,8 @@ interface StepSignInProps {
   onTogglePassword: () => void;
   onRememberMeChange: (v: boolean) => void;
   onContinue: () => void;
+  signInError?: string | null;
+  isSigningIn?: boolean;
 }
 
 const inputBase =
@@ -28,6 +31,8 @@ export const StepSignIn: React.FC<StepSignInProps> = ({
   onTogglePassword,
   onRememberMeChange,
   onContinue,
+  signInError = null,
+  isSigningIn = false,
 }) => (
   <div className="flex flex-1 flex-col">
     <div className="mb-6">
@@ -136,16 +141,23 @@ export const StepSignIn: React.FC<StepSignInProps> = ({
       </div>
     </div>
 
+    {signInError && (
+      <div className="flex items-center gap-2 rounded-lg border-2 border-red-500/30 bg-red-50/90 px-3.5 py-2.5 text-[12px] text-red-700">
+        ⚠ {signInError}
+      </div>
+    )}
+
     <div className="mt-auto flex items-center justify-between border-t border-[#eef4f4] pt-6">
       <p className="m-0 text-left text-[12.5px] text-[#a8c0c0]">
-        New here? <a className="cursor-pointer font-bold text-teal-700 no-underline hover:underline">Create account →</a>
+        New here? <Link to="/signup" className="font-bold text-teal-700 no-underline hover:underline">Create account →</Link>
       </p>
       <button
         type="button"
         onClick={onContinue}
-        className="flex items-center gap-2 rounded-xl bg-linear-to-br from-teal-700 to-teal-400 px-6 py-3 font-['Syne',sans-serif] text-sm font-bold tracking-wide text-white shadow-[0_6px_22px_rgba(15,118,110,.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(15,118,110,.42)]"
+        disabled={isSigningIn}
+        className="flex items-center gap-2 rounded-xl bg-linear-to-br from-teal-700 to-teal-400 px-6 py-3 font-['Syne',sans-serif] text-sm font-bold tracking-wide text-white shadow-[0_6px_22px_rgba(15,118,110,.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(15,118,110,.42)] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
       >
-        Continue <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+        {isSigningIn ? 'Signing in...' : 'Continue'} <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
       </button>
     </div>
   </div>

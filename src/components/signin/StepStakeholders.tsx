@@ -26,6 +26,8 @@ interface StepStakeholdersProps {
   onPreSessionNotesChange: (v: string) => void;
   onBack: () => void;
   onLaunch: () => void;
+  launchError?: string | null;
+  isLaunching?: boolean;
 }
 
 const inputSm =
@@ -57,6 +59,8 @@ export const StepStakeholders: React.FC<StepStakeholdersProps> = (props) => {
     onPreSessionNotesChange,
     onBack,
     onLaunch,
+    launchError = null,
+    isLaunching = false,
   } = props;
 
   const projectTypeLabel =
@@ -289,20 +293,28 @@ export const StepStakeholders: React.FC<StepStakeholdersProps> = (props) => {
         </div>
       </div>
 
+      {launchError && (
+        <div className="flex items-center gap-2 rounded-lg border-2 border-red-500/30 bg-red-50/90 px-3.5 py-2.5 text-[12px] text-red-700">
+          ⚠ {launchError}
+        </div>
+      )}
+
       <div className="mt-auto flex items-center justify-between border-t border-[#eef4f4] pt-6">
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-2 rounded-lg border-2 border-[#dceaea] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#4d6b6b] transition-colors hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700"
+          disabled={isLaunching}
+          className="flex items-center gap-2 rounded-lg border-2 border-[#dceaea] bg-white px-5 py-2.5 text-[13px] font-semibold text-[#4d6b6b] transition-colors hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           ← Back
         </button>
         <button
           type="button"
           onClick={onLaunch}
-          className="flex items-center gap-2 rounded-xl bg-linear-to-br from-[#061414] to-teal-700 px-6 py-3 font-['Syne',sans-serif] text-sm font-bold text-white shadow-[0_6px_22px_rgba(6,20,20,.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(6,20,20,.55)]"
+          disabled={isLaunching}
+          className="flex items-center gap-2 rounded-xl bg-linear-to-br from-[#061414] to-teal-700 px-6 py-3 font-['Syne',sans-serif] text-sm font-bold text-white shadow-[0_6px_22px_rgba(6,20,20,.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(6,20,20,.55)] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
-          ✨ Launch AI Session
+          {isLaunching ? 'Launching...' : '✨ Launch AI Session'}
         </button>
       </div>
     </div>

@@ -1,6 +1,14 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAuthStore } from '../store';
+import {
+  signIn as signInApi,
+  createProject,
+  addStakeholders,
+  launchSession,
+} from '../api';
+import type { ApiErrorResponse } from '../api';
 import {
   SignInLeftPanel,
   SignInStepper,
@@ -56,12 +64,20 @@ const SignIn: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState(LAUNCH_MESSAGES[0]);
+  const [signInError, setSignInError] = useState<string | null>(null);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [projectId, setProjectId] = useState<number | null>(null);
+  const [projectError, setProjectError] = useState<string | null>(null);
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
+  const [launchError, setLaunchError] = useState<string | null>(null);
+  const [isLaunching, setIsLaunching] = useState(false);
   const hasHydratedEmail = useRef(false);
 
   const rememberMe = useAuthStore((s) => s.rememberMe);
   const rememberedEmail = useAuthStore((s) => s.rememberedEmail);
   const setRememberMe = useAuthStore((s) => s.setRememberMe);
   const setAuthenticated = useAuthStore((s) => s.setAuthenticated);
+  const setToken = useAuthStore((s) => s.setToken);
   const saveRememberedEmail = useAuthStore((s) => s.saveRememberedEmail);
   const clearRememberedEmail = useAuthStore((s) => s.clearRememberedEmail);
 
@@ -108,15 +124,82 @@ const SignIn: React.FC = () => {
     return leadBaOk;
   }, [form.leadBaName]);
 
-  const goNext = useCallback(() => {
+  const goNext = useCallback(async () => {
     if (step === 1) {
       if (!validateStep1()) return;
-      if (rememberMe) saveRememberedEmail(form.email);
-      else clearRememberedEmail();
+      setSignInError(null);
+      setIsSigningIn(true);
+      try {
+        const res = await signInApi({
+          email: form.email.trim(),
+          password: form.password,
+        });
+        setToken(res.data.token);
+        if (rememberMe) saveRememberedEmail(form.email);
+        else clearRememberedEmail();
+        setStep(2);
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.data) {
+          const data = err.response.data as ApiErrorResponse;
+          const message =
+            data.message ||
+            (data.errors && typeof data.errors === 'object'
+              ? Object.values(data.errors).flat().join(' ')
+              : undefined) ||
+            err.response.statusText ||
+            'Sign in failed. Please try again.';
+          setSignInError(message);
+        } else {
+          setSignInError(
+            err instanceof Error ? err.message : 'Sign in failed. Please try again.'
+          );
+        }
+      } finally {
+        setIsSigningIn(false);
+      }
+      return;
     }
-    if (step === 2 && !validateStep2()) return;
+    if (step === 2) {
+      if (!validateStep2()) return;
+      setProjectError(null);
+      setIsCreatingProject(true);
+      try {
+        const res = await createProject({
+          projectName: form.projectName.trim(),
+          clientName: form.clientName.trim(),
+          domain: form.domain,
+          projectType: form.projectType,
+          timeline: form.timeline,
+          budgetRange: form.budget,
+          priority: form.priority,
+          engagementType: form.engagement,
+          brief: form.brief.trim(),
+        });
+        setProjectId(Number(res.data.projectId));
+        setStep(3);
+      } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.data) {
+          const data = err.response.data as ApiErrorResponse;
+          const message =
+            data.message ||
+            (data.errors && typeof data.errors === 'object'
+              ? Object.values(data.errors).flat().join(' ')
+              : undefined) ||
+            err.response.statusText ||
+            'Failed to create project. Please try again.';
+          setProjectError(message);
+        } else {
+          setProjectError(
+            err instanceof Error ? err.message : 'Failed to create project. Please try again.'
+          );
+        }
+      } finally {
+        setIsCreatingProject(false);
+      }
+      return;
+    }
     if (step < 3) setStep((s) => s + 1);
-  }, [step, rememberMe, form.email, validateStep1, validateStep2, saveRememberedEmail, clearRememberedEmail]);
+  }, [step, rememberMe, form.email, form.password, form.projectName, form.clientName, form.domain, form.projectType, form.timeline, form.budget, form.priority, form.engagement, form.brief, validateStep1, validateStep2, saveRememberedEmail, clearRememberedEmail]);
 
   const goBack = useCallback(() => {
     if (step > 1) setStep((s) => s - 1);
@@ -149,11 +232,55 @@ const SignIn: React.FC = () => {
     []
   );
 
-  const launch = useCallback(() => {
+  const launch = useCallback(async () => {
     if (!validateStep3()) return;
-    setShowSuccess(true);
-    setSuccessMessage(LAUNCH_MESSAGES[0]);
-  }, [validateStep3]);
+    if (projectId == null) {
+      setLaunchError('Project not found. Please go back and complete project setup.');
+      return;
+    }
+    setLaunchError(null);
+    setIsLaunching(true);
+    try {
+      await addStakeholders({
+        projectId,
+        stakeholders: form.stakeholders
+          .filter((s) => s.name.trim() || s.email.trim() || s.role.trim())
+          .map((s) => ({
+            fullName: s.name.trim() || '—',
+            email: s.email.trim() || '',
+            role: s.role.trim() || 'Stakeholder',
+          })),
+      });
+      await launchSession({
+        projectId,
+        leadBaName: form.leadBaName.trim(),
+        leadBaEmail: form.leadBaEmail.trim(),
+        sessionLanguage: form.sessionLanguage,
+        aiStyle: form.aiStyle,
+        sessionNotes: form.preSessionNotes.trim(),
+      });
+      setShowSuccess(true);
+      setSuccessMessage(LAUNCH_MESSAGES[0]);
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data) {
+        const data = err.response.data as ApiErrorResponse;
+        const message =
+          data.message ||
+          (data.errors && typeof data.errors === 'object'
+            ? Object.values(data.errors).flat().join(' ')
+            : undefined) ||
+          err.response.statusText ||
+          'Failed to launch session. Please try again.';
+        setLaunchError(message);
+      } else {
+        setLaunchError(
+          err instanceof Error ? err.message : 'Failed to launch session. Please try again.'
+        );
+      }
+    } finally {
+      setIsLaunching(false);
+    }
+  }, [validateStep3, projectId, form.stakeholders, form.leadBaName, form.leadBaEmail, form.sessionLanguage, form.aiStyle, form.preSessionNotes]);
 
   useEffect(() => {
     if (!showSuccess) return;
@@ -229,6 +356,8 @@ const SignIn: React.FC = () => {
                 onTogglePassword={() => setShowPassword((p) => !p)}
                 onRememberMeChange={setRememberMe}
                 onContinue={goNext}
+                signInError={signInError}
+                isSigningIn={isSigningIn}
               />
             )}
 
@@ -259,6 +388,8 @@ const SignIn: React.FC = () => {
                 onBriefChange={(v) => updateForm('brief', v)}
                 onBack={goBack}
                 onNext={goNext}
+                projectError={projectError}
+                isCreatingProject={isCreatingProject}
               />
             )}
 
@@ -286,6 +417,8 @@ const SignIn: React.FC = () => {
                 onPreSessionNotesChange={(v) => updateForm('preSessionNotes', v)}
                 onBack={goBack}
                 onLaunch={launch}
+                launchError={launchError}
+                isLaunching={isLaunching}
               />
             )}
           </div>

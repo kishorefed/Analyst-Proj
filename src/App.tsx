@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import ConversationPage from "./pages/ConversationPage";
 import RequirmentPage from "./pages/RequirmentPage";
 import AnalyticPage from "./pages/AnalyticPage";
@@ -24,6 +25,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SignInOrRedirect />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route
           path="/conversation"
           element={
