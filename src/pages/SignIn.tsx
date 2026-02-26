@@ -35,7 +35,7 @@ const initialFormState: SignInFormState = {
   password: '',
   clientName: '',
   projectName: '',
-  domain: 'Healthcare',
+  domain: 'Education',
   projectType: '',
   budget: '',
   timeline: '3 Months',
@@ -71,6 +71,7 @@ const SignIn: React.FC = () => {
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [launchError, setLaunchError] = useState<string | null>(null);
   const [isLaunching, setIsLaunching] = useState(false);
+  const [sessionId, setSessionId] = useState<number | null>(null);
   const hasHydratedEmail = useRef(false);
 
   const rememberMe = useAuthStore((s) => s.rememberMe);
@@ -251,7 +252,7 @@ const SignIn: React.FC = () => {
             role: s.role.trim() || 'Stakeholder',
           })),
       });
-      await launchSession({
+      const launchRes = await launchSession({
         projectId,
         leadBaName: form.leadBaName.trim(),
         leadBaEmail: form.leadBaEmail.trim(),
@@ -259,6 +260,11 @@ const SignIn: React.FC = () => {
         aiStyle: form.aiStyle,
         sessionNotes: form.preSessionNotes.trim(),
       });
+      if (launchRes.data?.sessionId != null) {
+        const id = launchRes.data.sessionId;
+        setSessionId(id);
+        sessionStorage.setItem('analyst-session-id', String(id));
+      }
       setShowSuccess(true);
       setSuccessMessage(LAUNCH_MESSAGES[0]);
     } catch (err) {
@@ -293,11 +299,11 @@ const SignIn: React.FC = () => {
         clearInterval(interval);
         setShowSuccess(false);
         setAuthenticated(true);
-        navigate('/conversation', { replace: true });
+        navigate('/conversation', { state: sessionId != null ? { sessionId } : undefined, replace: true });
       }
     }, 380);
     return () => clearInterval(interval);
-  }, [showSuccess, navigate, setAuthenticated]);
+  }, [showSuccess, navigate, setAuthenticated, sessionId]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -335,7 +341,7 @@ const SignIn: React.FC = () => {
         aria-hidden
       />
 
-      <div className="relative z-10 flex flex-1 justify-center items-center h-full w-full gap-5" onKeyDown={handleKeyDown}>
+      <div className="relative mx-10 z-10 flex flex-1 justify-center items-center h-full w-full gap-5" onKeyDown={handleKeyDown}>
         <aside className="flex flex-col overflow-hidden">
           <SignInLeftPanel />
         </aside> 

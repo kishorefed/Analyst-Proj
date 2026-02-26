@@ -54,10 +54,18 @@ export interface LaunchSessionRequest {
   sessionNotes: string;
 }
 
+/** Response from POST /api/projects/launch (Status 201 Created) */
 export interface LaunchSessionResponse {
   success: true;
   message?: string;
-  data?: unknown;
+  data: {
+    sessionId: number;
+    projectId?: number;
+    projectName?: string;
+    clientName?: string;
+    domain?: string;
+    startedAt?: string;
+  };
 }
 
 export async function createProject(

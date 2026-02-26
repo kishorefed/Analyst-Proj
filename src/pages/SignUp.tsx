@@ -121,7 +121,7 @@ const SignUp: React.FC = () => {
         aria-hidden
       />
 
-      <div className="relative z-10 flex flex-1 justify-center items-center h-full w-full gap-5">
+      <div className="relative mx-44 z-10 flex flex-1 justify-center items-center h-full w-full gap-5">
         <aside className="flex flex-col overflow-hidden">
           <SignUpLeftPanel />
         </aside>

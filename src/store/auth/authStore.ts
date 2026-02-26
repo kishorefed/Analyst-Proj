@@ -37,7 +37,10 @@ export const useAuthStore = create<AuthState>()(
         set({ rememberMe: true, rememberedEmail: email.trim() }),
       clearRememberedEmail: () =>
         set({ rememberedEmail: '', rememberMe: false }),
-      logout: () => set({ isAuthenticated: false, token: null }),
+      logout: () => {
+        sessionStorage.removeItem('analyst-session-id');
+        set({ isAuthenticated: false, token: null });
+      },
     }),
     {
       name: AUTH_STORAGE_KEY,
